@@ -1,0 +1,237 @@
+<style>
+/* ---------- scroll-scrubbed construction video ---------- */
+.pl{position:relative}
+.plpin{position:sticky;top:var(--nav);height:calc(100vh - var(--nav));min-height:540px;overflow:hidden;background:#0b100f}
+.plvid{position:absolute;inset:0;width:100%;height:100%;display:block}
+.plgrad{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(9,14,13,.68) 0%,rgba(9,14,13,.05) 26%,
+             rgba(9,14,13,.10) 52%,rgba(9,14,13,.90) 100%)}
+.plcopy{position:absolute;left:0;right:0;bottom:0;padding:0 0 clamp(34px,5.5vw,72px);pointer-events:none}
+.plcopy .inner{max-width:var(--col);margin:0 auto;padding:0 var(--pad)}
+.plphase{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--amber);margin:0 0 16px;display:flex;align-items:center;gap:14px}
+.plphase i{display:block;height:1px;width:46px;background:var(--amber);opacity:.65}
+.plstage{position:relative;min-height:clamp(150px,20vw,215px)}
+.plst{position:absolute;left:0;right:0;top:0;opacity:0;transform:translateY(16px);
+  transition:opacity .5s cubic-bezier(.22,.61,.36,1),transform .5s cubic-bezier(.22,.61,.36,1)}
+.plst.on{opacity:1;transform:none}
+.plst h1{font-family:var(--disp);font-weight:600;font-size:clamp(38px,7vw,88px);line-height:.98;
+  color:#F8F3E9;max-width:15ch;letter-spacing:-.01em;text-shadow:0 2px 34px rgba(0,0,0,.45)}
+.plst p{color:#D8D0C2;max-width:52ch;margin-top:16px;font-size:clamp(15px,1.6vw,17.5px)}
+.plst .cta{margin-top:26px;pointer-events:auto;display:flex;gap:12px;flex-wrap:wrap}
+.plpct{position:absolute;right:var(--pad);bottom:clamp(34px,5.5vw,72px);text-align:right;pointer-events:none}
+.plpct b{display:block;font-family:var(--disp);font-weight:600;font-size:clamp(46px,7.5vw,96px);
+  line-height:.9;color:#F8F3E9;font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+  text-shadow:0 2px 34px rgba(0,0,0,.5)}
+.plpct span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--amber);margin-top:8px}
+.plbar{position:absolute;left:var(--pad);right:var(--pad);bottom:18px;height:1px;background:rgba(248,243,233,.2)}
+.plbar i{display:block;height:100%;width:0;background:var(--amber)}
+.plticks{position:absolute;left:var(--pad);right:var(--pad);bottom:18px;height:1px;display:flex;justify-content:space-between}
+.plticks u{display:block;width:1px;height:7px;background:rgba(248,243,233,.32);transform:translateY(-3px)}
+.plcue{position:absolute;left:50%;transform:translateX(-50%);bottom:34px;font-family:var(--mono);
+  font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:rgba(248,243,233,.6);transition:opacity .4s}
+.plload{position:absolute;inset:0;display:grid;place-items:center;background:#0b100f;z-index:4;
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:#B9B2A5;transition:opacity .6s}
+.plload.gone{opacity:0;pointer-events:none}
+.plbarload{display:block;width:190px;height:2px;background:rgba(255,255,255,.15);margin-top:14px;overflow:hidden}
+.plbarload b{display:block;height:100%;width:0;background:var(--amber);transition:width .15s linear}
+@media (max-width:700px){.plpct b{font-size:38px}.plst h1{font-size:34px}}
+@media (prefers-reduced-motion:reduce){.plst{transition:none}}
+</style>
+
+<section class="page on" data-page="/">
+  <div class="pl" id="pl">
+    <div class="plpin">
+      <canvas class="plvid" id="plCv"></canvas>
+      <div class="plgrad"></div>
+      <div class="plcopy"><div class="inner">
+        <p class="plphase"><i></i><span id="plPhase">Phase 1 of 7</span></p>
+        <div class="plstage" id="plStage"></div>
+      </div></div>
+      <div class="plpct"><b id="plPct">0%</b><span>Complete</span></div>
+      <div class="plbar"><i id="plBar"></i></div>
+      <div class="plticks" id="plTicks"></div>
+      <span class="plcue" id="plCue">Scroll to build</span>
+      <div class="plload" id="plLoad">PREPARING SITE FOOTAGE<i class="plbarload"><b id="plLbar"></b></i></div>
+    </div>
+  </div>
+
+  <div class="sec"><div class="wrap">
+    <p class="eyebrow">Who We Are</p>
+    <div class="g2">
+      <h2 style="font-size:clamp(28px,4vw,44px)">A family business, evolved into a modern construction and development company.</h2>
+      <div>
+        <p>ALDA represents the evolution of a family business built over generations of enterprise and
+          experience — the legacy of Sri Shreenivas Enterprises, which operated for more than three decades
+          and delivered more than 40 projects, alongside Vijay Srinivas' professional experience in real
+          estate.</p>
+        <p>Our approach is simple: understand the requirement, plan carefully, execute responsibly and create
+          lasting value.</p>
+        <a class="btn btn-o" href="#/about">More about ALDA</a>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="sec"><div class="wrap">
+    <p class="eyebrow">Our Legacy</p>
+    <div class="tl">
+      <div><b>1913</b><span>Family business roots</span></div>
+      <div><b>35+</b><span>Years — Sri Shreenivas Enterprises</span></div>
+      <div><b>40+</b><span>Projects delivered</span></div>
+      <div><b>21+</b><span>Years — Vijay Srinivas in real estate</span></div>
+    </div>
+  </div></div>
+
+  <div class="sec"><div class="wrap"><p class="eyebrow">Featured Projects</p>
+    <div class="g3" id="homeProjects"></div></div></div>
+
+  <div class="sec"><div class="wrap" style="text-align:center">
+    <h2 style="font-size:clamp(26px,4vw,42px)">Looking to Build, Develop or Find Your Next Home?</h2>
+    <p class="lede" style="margin:16px auto 26px">Whether you are looking for a trusted construction partner or
+      exploring an ALDA development, our team is ready to help.</p>
+    <a class="btn btn-p" href="#/contact">Contact ALDA Today</a>
+  </div></div>
+
+<style>
+/* ---------- scroll-reveal ---------- */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+.rv.d4{transition-delay:.32s}.rv.d5{transition-delay:.40s}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* ---------- animated counters ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0;
+  border:1px solid var(--line);background:var(--card)}
+.stats div{padding:clamp(24px,3.2vw,38px) 24px;border-right:1px solid var(--line);position:relative;overflow:hidden}
+.stats div:last-child{border-right:0}
+.stats b{display:block;font-family:var(--disp);font-weight:600;font-size:clamp(34px,4.6vw,54px);
+  line-height:1;color:var(--amber);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.stats span{display:block;margin-top:10px;font-size:14.5px;color:var(--muted)}
+.stats i{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--amber);opacity:.35;
+  transition:width 1.4s cubic-bezier(.22,.61,.36,1)}
+.stats div.in i{width:100%}
+
+/* ---------- build process stepper ---------- */
+.proc{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:0;
+  border-top:2px solid var(--line);margin-top:12px}
+.proc>div{padding:30px 22px 0;position:relative}
+.proc>div:before{content:"";position:absolute;top:-7px;left:22px;width:12px;height:12px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--line);transition:border-color .5s ease,background .5s ease}
+.proc>div.in:before{border-color:var(--amber);background:var(--amber)}
+.proc .pn{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--amber);text-transform:uppercase}
+.proc h4{font-family:var(--disp);font-size:20px;margin:8px 0 8px;font-weight:600}
+.proc p{color:var(--muted);font-size:14.5px;margin:0}
+.procline{position:absolute;top:-2px;left:0;height:2px;background:var(--amber);width:0;
+  transition:width 1.8s cubic-bezier(.22,.61,.36,1)}
+.proc.in .procline{width:100%}
+
+/* ---------- capability tiles ---------- */
+.caps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line)}
+.caps article{background:var(--card);padding:clamp(22px,2.8vw,30px);transition:background .35s ease}
+.caps article:hover{background:var(--amber-lo)}
+.caps h4{font-family:var(--disp);font-size:19px;margin:0 0 8px;font-weight:600}
+.caps p{margin:0;color:var(--muted);font-size:14.5px}
+.caps .ic{width:30px;height:30px;margin-bottom:14px;display:block}
+.caps .ic line,.caps .ic path,.caps .ic rect,.caps .ic circle,.caps .ic polyline{
+  stroke:var(--amber);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- blueprint band ---------- */
+.blue{position:relative;overflow:hidden;background:var(--band2);color:var(--onband);
+  padding:clamp(52px,7vw,86px) 0}
+.blue:before{content:"";position:absolute;inset:0;opacity:.16;
+  background-image:linear-gradient(var(--amber) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--amber) 1px,transparent 1px);
+  background-size:44px 44px;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 20%,transparent 72%);
+  mask-image:radial-gradient(ellipse at 50% 50%,#000 20%,transparent 72%)}
+.blue .wrap{position:relative;z-index:2}
+.blue h2{color:var(--onband);font-size:clamp(26px,4vw,44px);max-width:20ch}
+.blue p{color:var(--onband-mut);max-width:58ch;margin-top:14px}
+
+/* ---------- crane sweep divider ---------- */
+.sweep{height:64px;position:relative;overflow:hidden;border-top:1px solid var(--line)}
+.sweep svg{position:absolute;left:0;top:0;width:100%;height:100%}
+.sweep .hook{transform-origin:50% 0;animation:swing 7s ease-in-out infinite}
+@keyframes swing{0%,100%{transform:rotate(-2.2deg)}50%{transform:rotate(2.2deg)}}
+@media (prefers-reduced-motion:reduce){.sweep .hook{animation:none}}
+</style>
+
+<!-- ===================== BUILD PROCESS ===================== -->
+<div class="sec"><div class="wrap">
+  <p class="eyebrow rv">How We Build</p>
+  <h2 class="rv d1" style="font-size:clamp(26px,4vw,42px);max-width:20ch">Five stages, every project, without exception.</h2>
+  <p class="lede rv d2" style="margin-top:14px">Our contracting approach is the same whether it is a private home or a
+    multi-storey development. Discipline is what makes handover predictable.</p>
+  <div class="proc rv d3" id="proc">
+    <div class="procline"></div>
+    <div><span class="pn">Stage 01</span><h4>Planning</h4><p>Understanding scope, requirements and execution priorities before anything is committed.</p></div>
+    <div><span class="pn">Stage 02</span><h4>Coordination</h4><p>Managing communication between architects, consultants, engineers, vendors and the client.</p></div>
+    <div><span class="pn">Stage 03</span><h4>Execution</h4><p>Maintaining focus on workmanship and the requirements agreed at planning.</p></div>
+    <div><span class="pn">Stage 04</span><h4>Monitoring</h4><p>Tracking progress and addressing issues while they are still cheap to solve.</p></div>
+    <div><span class="pn">Stage 05</span><h4>Completion</h4><p>Working towards proper project handover, and a relationship that continues past it.</p></div>
+  </div>
+</div></div>
+
+<!-- ===================== NUMBERS ===================== -->
+<div class="sec"><div class="wrap">
+  <p class="eyebrow rv">By the Numbers</p>
+  <div class="stats" id="stats">
+    <div data-to="1913" data-plain="1"><b>0</b><span>Family business roots</span><i></i></div>
+    <div data-to="35" data-suf="+"><b>0</b><span>Years — Sri Shreenivas Enterprises</span><i></i></div>
+    <div data-to="40" data-suf="+"><b>0</b><span>Projects delivered</span><i></i></div>
+    <div data-to="21" data-suf="+"><b>0</b><span>Years — Vijay Srinivas in real estate</span><i></i></div>
+    <div data-to="11" data-suf=""><b>0</b><span>Chennai locations</span><i></i></div>
+  </div>
+</div></div>
+
+<!-- ===================== CAPABILITIES ===================== -->
+<div class="sec"><div class="wrap">
+  <p class="eyebrow rv">Capabilities</p>
+  <h2 class="rv d1" style="font-size:clamp(26px,4vw,42px);margin-bottom:26px">What we take on.</h2>
+  <div class="caps">
+    <article class="rv"><svg class="ic" viewBox="0 0 24 24"><path d="M3 21h18M5 21V9l7-5 7 5v12"/><rect x="9.5" y="13" width="5" height="8"/></svg>
+      <h4>Residential Construction</h4><p>Individual homes and apartment developments, each planned to its own requirements.</p></article>
+    <article class="rv d1"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="17"/><rect x="13" y="9" width="8" height="12"/><line x1="6" y1="8" x2="8" y2="8"/><line x1="6" y1="12" x2="8" y2="12"/><line x1="16" y1="13" x2="18" y2="13"/></svg>
+      <h4>Commercial Construction</h4><p>Retail and office projects where access, services and timelines drive the programme.</p></article>
+    <article class="rv d2"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3v18M3 8h18"/><circle cx="12" cy="8" r="2.5"/><path d="M5 21c0-4 3-6 7-6s7 2 7 6"/></svg>
+      <h4>Turnkey Execution</h4><p>Design, engineering, procurement, vendors and site execution coordinated end to end.</p></article>
+    <article class="rv d3"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20l6-6M14 4l6 6-4 4-6-6z"/><path d="M4 20l3 1 1-3"/></svg>
+      <h4>Renovation &amp; Restoration</h4><p>Working with existing structures, conditions and constraints rather than a clear site.</p></article>
+    <article class="rv d4"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
+      <h4>Real Estate Development</h4><p>Residential projects built around location, functional layouts and long-term value.</p></article>
+    <article class="rv d5"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/></svg>
+      <h4>Project Management</h4><p>One accountable team across consultants, contractors and the client from start to handover.</p></article>
+  </div>
+</div></div>
+
+<!-- ===================== CRANE DIVIDER ===================== -->
+<div class="sweep" aria-hidden="true">
+  <svg viewBox="0 0 1200 64" preserveAspectRatio="none">
+    <g stroke="var(--line)" stroke-width="1.4" fill="none">
+      <path d="M0 63 H1200"/>
+      <path d="M150 63 V14 M150 14 H760"/>
+      <path d="M150 14 L200 63 M200 14 L250 63 M250 14 L300 63 M300 14 L350 63"/>
+      <path d="M120 63 H180"/>
+    </g>
+    <g class="hook" stroke="var(--amber)" stroke-width="1.6" fill="none">
+      <path d="M600 14 V44"/><rect x="588" y="44" width="24" height="12"/>
+    </g>
+  </svg>
+</div>
+
+<!-- ===================== BLUEPRINT CTA ===================== -->
+<div class="blue"><div class="wrap">
+  <p class="eyebrow rv">Start a Project</p>
+  <h2 class="rv d1">Understand the requirement. Plan responsibly. Execute professionally.</h2>
+  <p class="rv d2">Whether you are a private client, a project partner, a landowner or a homebuyer, the objective
+    stays the same — and so does the process.</p>
+  <div class="rv d3" style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap">
+    <a class="btn btn-p" href="#/contact">Talk to ALDA</a>
+    <a class="btn btn-g" href="#/projects">See the portfolio</a>
+  </div>
+</div></div>
+
+</section>

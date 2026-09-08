@@ -1,0 +1,180 @@
+<script>
+const FRAMES = __FRAMES__, PHOTO = "__PHOTO__";
+
+const STAGES = [
+  {pct:0,  h:"Building with Experience.",
+   p:"A cleared plot. A family business that traces back to 1913, and the intention to build something that outlasts us.",
+   cta:[["Begin the Journey","#/projects","btn-p"],["Talk to ALDA","#/contact","btn-g"]]},
+  {pct:12, h:"Ground broken.",
+   p:"Setting out and foundations. Every ALDA project starts the same way — understand the requirement, then plan carefully before anything is built."},
+  {pct:30, h:"The frame rises.",
+   p:"Columns and slabs, floor by floor. Our contracting experience spans residential, commercial, turnkey execution and renovation."},
+  {pct:48, h:"Structure takes shape.",
+   p:"The crane climbs with the building. Planning, coordination, execution and monitoring — the discipline behind every handover."},
+  {pct:66, h:"Topped out.",
+   p:"The full frame stands. More than 35 years with Sri Shreenivas Enterprises and 40+ delivered projects sit behind this moment."},
+  {pct:84, h:"Skin and services.",
+   p:"Decking, glazing and finishes settle the structure into its final composition, floor by floor."},
+  {pct:100,h:"A landmark, delivered.",
+   p:"From bare ground to a fully realised presence. Built by ALDA — contractor and developer under one name."}
+];
+const N = STAGES.length;
+
+const pl=document.getElementById('pl'), cv=document.getElementById('plCv');
+const ctx=cv.getContext('2d',{alpha:false});
+const stageEl=document.getElementById('plStage'), pctEl=document.getElementById('plPct');
+const phaseEl=document.getElementById('plPhase'), barEl=document.getElementById('plBar');
+const ticksEl=document.getElementById('plTicks'), cueEl=document.getElementById('plCue');
+const loadEl=document.getElementById('plLoad'), lbar=document.getElementById('plLbar');
+
+pl.style.height = (N*90) + 'vh';
+ticksEl.innerHTML = STAGES.map(()=>'<u></u>').join('');
+stageEl.innerHTML = STAGES.map((s,i)=>`
+  <div class="plst${i===0?' on':''}">
+    <h1>${s.h}</h1><p>${s.p}</p>
+    ${s.cta?`<div class="cta">${s.cta.map(c=>`<a class="btn ${c[2]}" href="${c[1]}">${c[0]}</a>`).join('')}</div>`:''}
+  </div>`).join('');
+const stEls=[...stageEl.children];
+
+/* ---------- frame scrubber ----------
+   Frames are decoded ONCE into ImageBitmaps at load. Scrolling then only
+   calls drawImage — no video seeking, no per-frame JPEG decode, so the
+   scrub cost is a single blit regardless of how fast you scroll.        */
+const bmps = new Array(FRAMES.length);
+let ready = false, curFrame = -1;
+
+function fit(){
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const r = cv.getBoundingClientRect();
+  const w = Math.round(r.width*dpr), h = Math.round(r.height*dpr);
+  if (cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; curFrame = -1; }
+}
+function blit(i){
+  const bm = bmps[i]; if (!bm) return;
+  const cw = cv.width, ch = cv.height;
+  const s = Math.max(cw/bm.width, ch/bm.height);
+  const w = bm.width*s, h = bm.height*s;
+  ctx.drawImage(bm, (cw-w)/2, (ch-h)*0.45, w, h);
+}
+async function decodeAll(){
+  let done = 0;
+  await Promise.all(FRAMES.map(async (src,i)=>{
+    const im = new Image(); im.src = src;
+    try { await im.decode(); } catch(e){}
+    try { bmps[i] = await createImageBitmap(im); } catch(e){ bmps[i] = im; }
+    done++;
+    if (lbar) lbar.style.width = Math.round(done/FRAMES.length*100)+'%';
+    if (i === 0){ fit(); blit(0); }
+  }));
+  ready = true;
+  loadEl.classList.add('gone');
+  update();
+}
+
+let raf=0, lastStage=-1;
+function update(){
+  raf = 0;
+  const r = pl.getBoundingClientRect();
+  const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav')) || 68;
+  const span = r.height - (window.innerHeight - navH);
+  const t = span > 0 ? Math.max(0, Math.min(1, -r.top / span)) : 0;
+
+  if (ready){
+    const idx = Math.round(t*(FRAMES.length-1));
+    if (idx !== curFrame){ curFrame = idx; blit(idx); }
+  }
+
+  const f = t*(N-1), i = Math.min(N-2, Math.floor(f)), frac = f - i;
+  pctEl.textContent = Math.round(STAGES[i].pct + (STAGES[i+1].pct - STAGES[i].pct)*frac) + '%';
+  barEl.style.width = (t*100) + '%';
+
+  const near = Math.round(f);
+  if (near !== lastStage){
+    lastStage = near;
+    stEls.forEach((e,k)=>e.classList.toggle('on', k===near));
+    phaseEl.textContent = 'Phase ' + (near+1) + ' of ' + N;
+  }
+  cueEl.style.opacity = t > 0.03 ? 0 : .85;
+}
+function onScroll(){ if(!raf) raf = requestAnimationFrame(update); }
+window.addEventListener('scroll', onScroll, {passive:true});
+window.addEventListener('resize', ()=>{ fit(); curFrame=-1; onScroll(); }, {passive:true});
+fit();
+decodeAll();
+
+/* ---------- scroll reveals + counters ---------- */
+const io = new IntersectionObserver((es)=>{
+  es.forEach(e=>{
+    if (!e.isIntersecting) return;
+    e.target.classList.add('in');
+    if (e.target.dataset.to !== undefined) countUp(e.target);
+    io.unobserve(e.target);
+  });
+}, {threshold:0.25, rootMargin:'0px 0px -8% 0px'});
+function observeAll(){
+  document.querySelectorAll('.rv:not(.in), .stats div:not(.in), .proc:not(.in), .proc>div:not(.in)')
+    .forEach(el=>io.observe(el));
+}
+function countUp(el){
+  const to = +el.dataset.to, suf = el.dataset.suf || '', plain = el.dataset.plain === '1';
+  const b = el.querySelector('b'); const t0 = performance.now(), D = 1300;
+  (function tick(now){
+    const k = Math.min(1, (now-t0)/D);
+    const e = 1 - Math.pow(1-k, 3);
+    b.textContent = (plain ? Math.round(to*e) : Math.round(to*e)) + (k===1 ? suf : '');
+    if (k < 1) requestAnimationFrame(tick);
+  })(performance.now());
+}
+observeAll();
+
+/* ---------- projects ---------- */
+const PROJECTS=[
+ {n:"ALDA Ayan",loc:"Thiruvanmiyur, Chennai",st:"Ongoing",cls:"live",
+  spec:"3 BHK · 16 residences<br>1,672–1,934 sq. ft. · 2 car parks",
+  d:"A residential development positioned as an exclusive 3 BHK address."},
+ {n:"ALDA Aran",loc:"Location to be confirmed",st:"Upcoming",cls:"live",
+  spec:"Configuration — to be confirmed<br>Units &amp; RERA — to be confirmed",
+  d:"A newly signed project in ALDA's growing development pipeline."},
+ {n:"ALDA Amogh",loc:"Adyar, Chennai",st:"Completed",cls:"done",
+  spec:"Completed / sold out",d:"A completed residential development in Adyar."},
+ {n:"ALDA One",loc:"Indira Nagar, Adyar",st:"Completed",cls:"done",
+  spec:"Completed / sold out",d:"A completed residential project in Indira Nagar."}];
+const card=p=>`<article class="pcard"><img src="${PHOTO}" alt="${p.n}">
+ <div class="pb"><span class="tag ${p.cls}">${p.st}</span><h3>${p.n}</h3>
+ <p style="color:var(--muted);font-size:15px;margin:0">${p.loc}</p>
+ <p style="font-size:15px;margin:0">${p.d}</p><div class="spec">${p.spec}</div></div></article>`;
+document.getElementById('homeProjects').innerHTML=PROJECTS.slice(0,3).map(card).join('');
+document.getElementById('ongoing').innerHTML=PROJECTS.filter(p=>p.st!=="Completed").map(card).join('');
+document.getElementById('completed').innerHTML=PROJECTS.filter(p=>p.st==="Completed").map(card).join('');
+document.querySelectorAll("[data-img]").forEach(el=>{ el.src = PHOTO; });
+
+/* ---------- router ---------- */
+const pages=[...document.querySelectorAll('.page')], links=[...document.querySelectorAll('.navlinks a')];
+function route(){
+  const r=location.hash.replace(/^#/,'')||'/';
+  let hit=false;
+  pages.forEach(p=>{const on=p.dataset.page===r;p.classList.toggle('on',on);if(on)hit=true;});
+  if(!hit) pages.find(p=>p.dataset.page==='/').classList.add('on');
+  links.forEach(a=>a.classList.toggle('on',a.dataset.r===r));
+  document.getElementById('nav').classList.remove('open');
+  window.scrollTo(0,0);
+  if(r==='/'){ fit(); curFrame=-1; lastStage=-1; onScroll(); }
+  requestAnimationFrame(observeAll);
+}
+window.addEventListener('hashchange',route);
+document.getElementById('burger').addEventListener('click',e=>{
+  const open=document.getElementById('nav').classList.toggle('open');
+  e.currentTarget.setAttribute('aria-expanded',String(open));
+});
+document.getElementById('enqForm').addEventListener('submit',e=>{
+  e.preventDefault(); const f=e.target;
+  const body=['Name: '+f.name.value,'Email: '+f.email.value,'Phone: '+f.phone.value,
+              'Interest: '+f.interest.value,'',f.message.value].join('\n');
+  document.getElementById('formNote').textContent='Opening your email app…';
+  location.href='mailto:info@aldaglobal.com?subject='+encodeURIComponent('Website enquiry — '+f.interest.value)
+    +'&body='+encodeURIComponent(body);
+});
+document.getElementById('yr').textContent=new Date().getFullYear();
+route();
+observeAll();
+</script>

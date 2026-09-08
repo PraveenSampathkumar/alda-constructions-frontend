@@ -1,0 +1,633 @@
+<title>ALDA Chennai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F3F2EE; --card:#FFF; --band:#1A2624; --band2:#121C1B;
+  --ink:#181713; --muted:#6E6A62; --faint:#928C82;
+  --line:#DEDAD1; --line2:#EBE8E1;
+  --amber:#C9761E; --amber-lo:#F5E7D6; --deep:#2F5D57;
+  --onband:#EFEAE0; --onband-mut:#A9A194;
+  --disp:"Fraunces",Georgia,serif; --sans:"Karla",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --col:1220px; --pad:clamp(20px,4vw,44px); --nav:68px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#131211;--card:#1B1A17;--line:#2C2A26;--line2:#232120;
+  --ink:#EFEAE1;--muted:#A29A8F;--faint:#7C756B;--amber:#E19343;--amber-lo:#3A2A18;}}
+:root[data-theme="dark"]{
+  --bg:#131211;--card:#1B1A17;--line:#2C2A26;--line2:#232120;
+  --ink:#EFEAE1;--muted:#A29A8F;--faint:#7C756B;--amber:#E19343;--amber-lo:#3A2A18;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.wrap{max-width:var(--col);margin:0 auto;padding:0 var(--pad)}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:600;line-height:1.12;text-wrap:balance;margin:0}
+p{margin:0 0 1.05em}
+.lede{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:64ch}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin:0 0 14px}
+.sec{padding:clamp(56px,8vw,100px) 0}
+.sec+.sec{border-top:1px solid var(--line)}
+.page{display:none}.page.on{display:block}
+.page:not(.on){content-visibility:hidden}
+
+header.nav{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.navin{max-width:var(--col);margin:0 auto;padding:0 var(--pad);display:flex;align-items:center;gap:26px;height:var(--nav)}
+.brand{font-family:var(--disp);font-weight:700;font-size:25px;letter-spacing:.13em;text-decoration:none}
+.brand span{color:var(--amber)}
+.navlinks{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
+.navlinks a{font-size:14.5px;text-decoration:none;color:var(--muted);padding:5px 0;border-bottom:1.5px solid transparent}
+.navlinks a:hover{color:var(--ink)}
+.navlinks a.on{color:var(--ink);border-bottom-color:var(--amber)}
+.enq{background:var(--amber);color:#fff!important;font-weight:600;font-size:14px;padding:11px 20px;text-decoration:none;white-space:nowrap}
+.burger{display:none;background:0;border:1px solid var(--line);color:var(--ink);padding:8px 12px;font-family:var(--mono);font-size:12px;cursor:pointer;margin-left:auto}
+
+/* ---------- scroll story ---------- */
+.story{position:relative}
+.storypin{position:sticky;top:var(--nav);height:calc(100vh - var(--nav));min-height:520px;overflow:hidden;background:#0e1615}
+#cv{width:100%;height:100%;display:block}
+.load{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:#B9B2A5;background:#0e1615;transition:opacity .5s ease}
+.load.gone{opacity:0;pointer-events:none}
+.load i{display:block;width:180px;height:2px;background:rgba(255,255,255,.16);margin-top:14px;overflow:hidden}
+.load i b{display:block;height:100%;width:0;background:var(--amber);transition:width .2s linear}
+.beats{position:absolute;inset:0;pointer-events:none}
+.beat{
+  position:absolute;left:0;right:0;bottom:0;padding:0 0 clamp(40px,7vw,86px);
+  opacity:0;transform:translateY(18px);transition:opacity .45s ease,transform .45s ease;
+}
+.beat.on{opacity:1;transform:none}
+.beat .inner{max-width:var(--col);margin:0 auto;padding:0 var(--pad);max-width:min(var(--col),100%)}
+.beat h2{font-size:clamp(28px,5vw,58px);color:#F4EFE5;max-width:18ch}
+.beat p{color:#CFC7B9;max-width:54ch;margin-top:14px;font-size:clamp(15px,1.6vw,17.5px)}
+.beat .figs{display:flex;gap:clamp(20px,4vw,44px);flex-wrap:wrap;margin-top:22px}
+.beat .figs div{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#A9A194}
+.beat .figs b{display:block;font-family:var(--disp);font-size:clamp(24px,3.4vw,38px);color:var(--amber);letter-spacing:.02em;line-height:1;margin-bottom:5px}
+.beat .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;pointer-events:auto}
+.scrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(14,22,21,.55) 0%,rgba(14,22,21,.05) 32%,rgba(14,22,21,.55) 68%,rgba(14,22,21,.95) 100%)}
+.rail{position:absolute;right:var(--pad);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px;pointer-events:none}
+.rail i{display:block;width:2px;height:26px;background:rgba(239,234,224,.22)}
+.rail i.on{background:var(--amber)}
+.cue{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:rgba(239,234,224,.55);text-transform:uppercase}
+
+.btn{display:inline-block;text-decoration:none;font-weight:600;font-size:14.5px;padding:13px 24px;border:1.5px solid transparent;cursor:pointer;font-family:var(--sans)}
+.btn-p{background:var(--amber);color:#fff}
+.btn-g{border-color:rgba(244,239,229,.42);color:#F4EFE5}
+.btn-o{border-color:var(--amber);color:var(--amber)}
+
+.band{background:var(--band);color:var(--onband);position:relative;overflow:hidden}
+.band .wrap{position:relative;z-index:2}
+.bandimg{position:absolute;inset:0}
+.bandimg img{width:100%;height:100%;object-fit:cover}
+.bandimg:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(18,28,27,.95) 0%,rgba(18,28,27,.74) 46%,rgba(18,28,27,.34) 100%)}
+.phero{padding:clamp(60px,9vw,110px) 0}
+.phero h1{font-size:clamp(34px,6vw,60px);color:var(--onband)}
+.phero .lede{color:var(--onband-mut);margin-top:16px}
+
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(22px,3vw,40px)}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+.card{background:var(--card);border:1px solid var(--line);padding:clamp(22px,3vw,32px)}
+.card h3{font-size:23px;margin-bottom:10px}
+.card p:last-child{margin-bottom:0}
+.pcard{background:var(--card);border:1px solid var(--line);overflow:hidden;display:flex;flex-direction:column}
+.pcard img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.pcard .pb{padding:20px 22px;display:flex;flex-direction:column;gap:7px;flex:1}
+.pcard h3{font-size:21px}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:4px 9px;border:1px solid var(--line);color:var(--muted);align-self:flex-start}
+.tag.live{border-color:var(--amber);color:var(--amber)}
+.tag.done{border-color:var(--deep);color:var(--deep)}
+.spec{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:auto;padding-top:10px}
+.tl{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));border:1px solid var(--line);background:var(--card)}
+.tl div{padding:26px 24px;border-right:1px solid var(--line)}
+.tl div:last-child{border-right:0}
+.tl b{display:block;font-family:var(--disp);font-size:clamp(28px,3.6vw,40px);font-weight:700;color:var(--amber);line-height:1}
+.tl span{display:block;margin-top:9px;font-size:14.5px;color:var(--muted)}
+.ticks{list-style:none;padding:0;margin:0;display:grid;gap:11px}
+.ticks li{padding-left:26px;position:relative;color:var(--muted)}
+.ticks li:before{content:"";position:absolute;left:0;top:.62em;width:11px;height:1.5px;background:var(--amber)}
+.vals{display:grid;border-top:1px solid var(--line)}
+.vals div{padding:20px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:210px 1fr;gap:24px}
+.vals h4{font-size:19px}.vals p{margin:0;color:var(--muted)}
+.locs{display:flex;flex-wrap:wrap;gap:9px}
+.locs span{font-family:var(--mono);font-size:12.5px;padding:7px 13px;border:1px solid var(--line);color:var(--muted);background:var(--card)}
+.notice{border-left:3px solid var(--amber);background:var(--amber-lo);padding:16px 20px;font-size:14.5px}
+.notice b{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:5px;color:var(--amber)}
+.form{display:grid;gap:16px;max-width:560px}
+.form label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+.form input,.form select,.form textarea{width:100%;padding:12px 14px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:var(--sans);font-size:15.5px}
+.form textarea{min-height:110px;resize:vertical}
+.cinfo{font-family:var(--mono);font-size:14px;line-height:2;color:var(--muted)}
+.cinfo a{color:var(--amber);text-decoration:none}
+footer{background:var(--band2);color:var(--onband-mut);padding:56px 0 34px}
+footer h4{color:var(--onband);font-size:17px;margin-bottom:14px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:34px}
+footer a{color:var(--onband-mut);text-decoration:none;display:block;padding:4px 0;font-size:14.5px}
+footer a:hover{color:var(--amber)}
+.fbot{margin-top:40px;padding-top:22px;border-top:1px solid rgba(239,234,224,.14);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:12.5px}
+.disc{font-size:12.5px;line-height:1.7;color:#8C857A;margin-top:20px}
+@media (max-width:900px){
+  .navlinks{display:none;position:absolute;top:var(--nav);left:0;right:0;background:var(--bg);border-bottom:1px solid var(--line);flex-direction:column;gap:0;padding:10px var(--pad) 18px}
+  .navlinks.open{display:flex}
+  .navlinks a{padding:11px 0;border-bottom:1px solid var(--line2)}
+  .burger{display:block}.enq{margin-left:12px}
+  .vals div{grid-template-columns:1fr;gap:6px}
+  .tl div{border-right:0;border-bottom:1px solid var(--line)}
+  .rail{display:none}
+}
+@media (prefers-reduced-motion:reduce){.beat{transition:none}*{scroll-behavior:auto!important}}
+</style>
+
+<header class="nav"><div class="navin">
+  <a class="brand" href="#/">ALD<span>A</span></a>
+  <button class="burger" id="burger" aria-expanded="false">MENU</button>
+  <nav class="navlinks" id="nav">
+    <a href="#/" data-r="/">Home</a><a href="#/about" data-r="/about">About Us</a>
+    <a href="#/what-we-do" data-r="/what-we-do">What We Do</a><a href="#/projects" data-r="/projects">Projects</a>
+    <a href="#/locations" data-r="/locations">Locations</a><a href="#/nri" data-r="/nri">NRI</a>
+    <a href="#/insights" data-r="/insights">Insights</a><a href="#/contact" data-r="/contact">Contact</a>
+  </nav>
+  <a class="enq" href="#/contact">Enquire Now</a>
+</div></header>
+
+<main>
+<section class="page on" data-page="/">
+  <div class="story" id="story">
+    <div class="storypin">
+      <canvas id="cv"></canvas>
+      <div class="scrim"></div>
+      <div class="beats" id="beats"></div>
+      <div class="rail" id="rail"></div>
+      <span class="cue" id="cue">Scroll</span>
+      <div class="load" id="load">PREPARING SITE VISUALISATION<i><b id="lbar"></b></i></div>
+    </div>
+  </div>
+
+  <div class="sec"><div class="wrap">
+    <p class="eyebrow">Who We Are</p>
+    <div class="g2">
+      <h2 style="font-size:clamp(28px,4vw,44px)">A family business, evolved into a modern construction and development company.</h2>
+      <div>
+        <p>ALDA represents the evolution of a family business built over generations of enterprise and
+          experience — the legacy of Sri Shreenivas Enterprises, which operated for more than three decades
+          and delivered more than 40 projects, alongside Vijay Srinivas' professional experience in real estate.</p>
+        <p>Our approach is simple: understand the requirement, plan carefully, execute responsibly and create
+          lasting value.</p>
+        <a class="btn btn-o" href="#/about">More about ALDA</a>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="sec"><div class="wrap"><p class="eyebrow">Featured Projects</p>
+    <div class="g3" id="homeProjects"></div></div></div>
+
+  <div class="sec"><div class="wrap" style="text-align:center">
+    <h2 style="font-size:clamp(26px,4vw,42px)">Looking to Build, Develop or Find Your Next Home?</h2>
+    <p class="lede" style="margin:16px auto 26px">Whether you are looking for a trusted construction partner or
+      exploring an ALDA development, our team is ready to help.</p>
+    <a class="btn btn-p" href="#/contact">Contact ALDA Today</a>
+  </div></div>
+</section>
+
+<section class="page" data-page="/about">
+  <div class="band"><div class="bandimg"><img data-img="arrival" alt=""></div><div class="wrap phero">
+    <p class="eyebrow">About ALDA</p><h1>Experience That Builds Trust. A Vision That Looks Ahead.</h1>
+    <p class="lede">A Chennai-based construction and real estate development company built on experience,
+      relationships and a long-term approach to creating value.</p></div></div>
+  <div class="sec"><div class="wrap g2">
+    <div><p class="eyebrow">Our Story</p><h2 style="font-size:clamp(26px,3.6vw,38px)">From construction to development.</h2></div>
+    <div><p>The ALDA story is not a story that began with a single project. It is an evolution of a family
+      business journey spanning generations, combined with professional experience in the real estate industry
+      and hands-on construction expertise. The business has grown from its earlier identity as Sri Shreenivas
+      Enterprises into a more structured and contemporary brand under ALDA.</p>
+      <p>As a contractor, we understand what it takes to plan and execute a project on the ground. As a
+      developer, we understand location, design, customer requirements, quality, timelines and long-term value.</p></div>
+  </div></div>
+  <div class="sec"><div class="wrap"><p class="eyebrow">Our Legacy</p>
+    <div class="tl">
+      <div><b>1913</b><span>Family business roots</span></div>
+      <div><b>35+</b><span>Years — Sri Shreenivas Enterprises</span></div>
+      <div><b>40+</b><span>Projects delivered</span></div>
+      <div><b>21+</b><span>Years — Vijay Srinivas in real estate</span></div>
+    </div></div></div>
+  <div class="sec"><div class="wrap"><p class="eyebrow">Our Values</p><div class="vals">
+    <div><h4>Teamwork</h4><p>Working collaboratively with clients, consultants, vendors and project teams.</p></div>
+    <div><h4>Transparency</h4><p>Maintaining clear and responsible communication.</p></div>
+    <div><h4>Integrity</h4><p>Doing business with honesty and accountability.</p></div>
+    <div><h4>Excellence</h4><p>Continuously improving our approach to quality and execution.</p></div>
+    <div><h4>Customer Focus</h4><p>Keeping the end user and project objective at the centre of decisions.</p></div>
+  </div></div></div>
+  <div class="sec"><div class="wrap"><p class="eyebrow">Our Team</p>
+    <h2 style="font-size:clamp(24px,3.4vw,34px);margin-bottom:14px">People Behind ALDA</h2>
+    <div class="g2">
+      <div><p>Buildings may be made from concrete, steel and glass, but successful projects are ultimately built
+        by people. ALDA is led by <strong>Vijay Srinivas</strong>, whose professional journey includes more than
+        two decades in real estate, including leadership experience at Adroit Urban Developers.</p></div>
+      <div class="notice"><b>Pending client confirmation</b>Individual team names, designations and
+        qualifications are held back until confirmed by ALDA. Vijay Srinivas' official designation is still to
+        be confirmed and is therefore not shown.</div>
+    </div></div></div>
+  <div class="sec"><div class="wrap g2">
+    <div><p class="eyebrow">Awards &amp; Recognition</p>
+      <p>Awards are meaningful when they represent genuine achievement. We want to build projects and
+        relationships that naturally earn respect within the industry.</p>
+      <div class="notice"><b>Not yet published</b>Verified awards, certifications and dates are still to be
+        supplied. This section stays empty rather than carrying unverified claims.</div></div>
+    <div><p class="eyebrow">Customer Testimonials</p>
+      <p>A building can be measured in square feet. A relationship cannot.</p>
+      <div class="notice"><b>Awaiting approved testimonials</b>Only verified, client-approved testimonials will
+        appear here. Nothing has been reproduced from other sources.</div></div>
+  </div></div>
+</section>
+
+<section class="page" data-page="/what-we-do">
+  <div class="band"><div class="bandimg"><img data-img="contracting" alt=""></div><div class="wrap phero">
+    <p class="eyebrow">What We Do</p><h1>Construction Expertise. Development Experience. One ALDA Approach.</h1>
+    <p class="lede">Rather than treating contracting and development as separate businesses, we see them as
+      complementary capabilities.</p></div></div>
+  <div class="sec"><div class="wrap"><p class="eyebrow">Contracting</p>
+    <h2 style="font-size:clamp(26px,3.6vw,38px);margin-bottom:24px">Construction expertise that understands the ground reality</h2>
+    <div class="g2">
+      <div><p>ALDA undertakes construction and contracting work across residential, commercial and other
+        building requirements.</p>
+        <ul class="ticks"><li>Residential construction — homes and apartment developments</li>
+        <li>Commercial construction — retail and office projects</li>
+        <li>Turnkey projects and structured project execution</li>
+        <li>Renovation and restoration</li><li>Building-related and infrastructure works</li></ul></div>
+      <div class="card"><h3>Project Execution</h3><div class="vals" style="border-top:0">
+        <div><h4>Planning</h4><p>Understanding scope, requirements and execution priorities.</p></div>
+        <div><h4>Coordination</h4><p>Managing communication between stakeholders.</p></div>
+        <div><h4>Execution</h4><p>Maintaining focus on workmanship and requirements.</p></div>
+        <div><h4>Monitoring</h4><p>Tracking progress and addressing issues.</p></div>
+        <div style="border-bottom:0"><h4>Completion</h4><p>Working towards proper project handover.</p></div>
+      </div></div>
+    </div></div></div>
+  <div class="sec"><div class="wrap"><p class="eyebrow">Real Estate Development</p>
+    <h2 style="font-size:clamp(26px,3.6vw,38px);margin-bottom:24px">Creating homes with purpose</h2>
+    <div class="g2">
+      <div><p>Our development business focuses on residential projects designed around the needs of the people
+        who will ultimately live in them. A home is connected to its surroundings — accessibility,
+        neighbourhood character, everyday conveniences and connectivity all influence the long-term experience
+        of living in a property.</p></div>
+      <div><h3 style="font-size:20px;margin-bottom:12px">Our development philosophy</h3>
+        <ul class="ticks"><li>Thoughtful planning</li><li>Appropriate locations</li><li>Functional layouts</li>
+        <li>Quality construction</li><li>Responsible execution</li><li>Clear communication</li>
+        <li>Long-term value</li></ul></div>
+    </div></div></div>
+</section>
+
+<section class="page" data-page="/projects">
+  <div class="band"><div class="bandimg"><img data-img="projects" alt=""></div><div class="wrap phero">
+    <p class="eyebrow">Our Projects</p><h1>Experience You Can See. Projects You Can Trust.</h1>
+    <p class="lede">ALDA's portfolio brings together residential development and contracting experience across Chennai.</p></div></div>
+  <div class="sec"><div class="wrap"><p class="eyebrow">Real Estate — Ongoing</p><div class="g3" id="ongoing"></div></div></div>
+  <div class="sec"><div class="wrap"><p class="eyebrow">Real Estate — Completed</p><div class="g3" id="completed"></div></div></div>
+  <div class="sec"><div class="wrap"><p class="eyebrow">Contracting Portfolio</p>
+    <h2 style="font-size:clamp(24px,3.4vw,34px);margin-bottom:14px">Residential, commercial, infrastructure and renovation</h2>
+    <p class="lede" style="margin-bottom:20px">Project records include work across these parts of Chennai.</p>
+    <div class="locs"><span>Anna Nagar</span><span>Adyar</span><span>Nungambakkam</span><span>ECR</span>
+      <span>KK Nagar</span><span>Perungudi</span><span>R.K. Salai</span><span>Ambattur</span>
+      <span>Uthandi</span><span>Sholinganallur</span><span>Thalambur</span></div>
+    <div class="notice" style="margin-top:26px"><b>Project pages to follow</b>Each significant project will have
+      its own page covering scope, location, status, specifications, images and updates.</div>
+  </div></div>
+  <div class="sec"><div class="wrap"><p class="eyebrow">Upcoming Projects</p>
+    <h2 style="font-size:clamp(24px,3.4vw,34px);margin-bottom:12px">The next chapter of ALDA</h2>
+    <div class="g2">
+      <div><p>We believe every new project should have a clear purpose — responding to the location, the market
+        and the people who will ultimately use the space. We are not interested in building simply for volume.</p>
+        <a class="btn btn-p" href="#/contact">Register Your Interest</a></div>
+      <div class="card"><h3>ALDA Aran</h3>
+        <p style="color:var(--muted)">A newly signed residential project forming part of ALDA's growing
+          development pipeline. Detailed information will be released as the project progresses.</p>
+        <div class="spec">LOCATION — to be confirmed<br>CONFIGURATION — to be confirmed<br>
+          UNITS — to be confirmed<br>RERA — to be confirmed</div></div>
+    </div></div></div>
+</section>
+
+<section class="page" data-page="/locations">
+  <div class="band"><div class="bandimg"><img data-img="locations" alt=""></div><div class="wrap phero">
+    <p class="eyebrow">Our Locations</p><h1>Building Where People Want to Live, Work and Grow</h1>
+    <p class="lede">ALDA's project experience spans multiple parts of Chennai, from established residential
+      neighbourhoods to emerging growth corridors.</p></div></div>
+  <div class="sec"><div class="wrap"><div class="g3">
+    <div class="card"><h3>Chennai</h3><p>The core market for ALDA — residential, commercial, infrastructure and
+      renovation projects across the city.</p></div>
+    <div class="card"><h3>Thiruvanmiyur</h3><p>Home to <strong>ALDA Ayan</strong>, offering 3 BHK residences.</p></div>
+    <div class="card"><h3>Adyar</h3><p><strong>ALDA Amogh</strong> and <strong>ALDA One</strong> are among the
+      developments associated with the area.</p></div>
+  </div>
+  <h3 style="margin:44px 0 14px;font-size:22px">Other Chennai locations</h3>
+  <div class="locs"><span>Anna Nagar</span><span>Nungambakkam</span><span>ECR</span><span>KK Nagar</span>
+    <span>Perungudi</span><span>R.K. Salai</span><span>Ambattur</span><span>Uthandi</span>
+    <span>Sholinganallur</span><span>Thalambur</span></div></div></div>
+</section>
+
+<section class="page" data-page="/nri">
+  <div class="band"><div class="bandimg"><img data-img="establishing" alt=""></div><div class="wrap phero">
+    <p class="eyebrow">ALDA for NRI Homebuyers</p><h1>Your Chennai Property Journey, Wherever You Are</h1>
+    <p class="lede">Buying a home in Chennai while living overseas can involve questions about projects,
+      documentation, communication, site visits and the purchase process.</p></div></div>
+  <div class="sec"><div class="wrap g2">
+    <div><h2 style="font-size:clamp(24px,3.4vw,32px);margin-bottom:12px">Why Chennai?</h2>
+      <p>Chennai remains an important city for families with roots in Tamil Nadu. For an NRI buyer, the right
+        property is about more than investment — it can represent a future home, a family asset or a connection
+        to a familiar neighbourhood.</p></div>
+    <div><h2 style="font-size:clamp(24px,3.4vw,32px);margin-bottom:12px">Why ALDA?</h2>
+      <p>ALDA combines real estate development experience with construction knowledge, developed with an
+        emphasis on end-user requirements, practical planning and quality execution.</p></div>
+  </div></div>
+  <div class="sec"><div class="wrap"><p class="eyebrow">Dedicated Assistance</p>
+    <div class="g2">
+      <ul class="ticks"><li>Available projects</li><li>Project specifications</li><li>Location</li><li>Pricing</li></ul>
+      <ul class="ticks"><li>Documentation</li><li>Site visits</li><li>Purchase process</li><li>Project updates</li></ul>
+    </div>
+    <div class="notice" style="margin-top:26px"><b>Please note</b>Specific legal, taxation and regulatory advice
+      should always be obtained from qualified professionals.</div>
+    <div style="margin-top:28px"><a class="btn btn-p" href="#/contact">Speak to the ALDA NRI Team</a></div>
+  </div></div>
+</section>
+
+<section class="page" data-page="/insights">
+  <div class="band"><div class="bandimg"><img data-img="development" alt=""></div><div class="wrap phero">
+    <p class="eyebrow">Insights</p><h1>Ideas, Knowledge and Perspectives from ALDA</h1>
+    <p class="lede">Reliable information helps you make better decisions about buying, building and investing.</p></div></div>
+  <div class="sec"><div class="wrap"><div class="g2">
+    <div class="card"><h3>Real Estate</h3><ul class="ticks"><li>Buying a home in Chennai</li>
+      <li>Understanding residential projects</li><li>Location selection</li><li>Home investment</li>
+      <li>Property documentation</li></ul></div>
+    <div class="card"><h3>Construction</h3><ul class="ticks"><li>Construction stages</li><li>Project planning</li>
+      <li>Building quality</li><li>Renovation</li><li>Turnkey construction</li></ul></div>
+    <div class="card"><h3>Chennai Property</h3><p>Location-focused content on residential areas, connectivity,
+      infrastructure and property considerations.</p></div>
+    <div class="card"><h3>ALDA News</h3><ul class="ticks"><li>Project announcements and launches</li>
+      <li>Company milestones</li><li>Events and partnerships</li></ul></div>
+  </div>
+  <div class="notice" style="margin-top:30px"><b>Editorial standard</b>Our objective is not to publish generic
+    articles simply to rank on Google. Every article should answer a genuine customer question. Articles will
+    appear here as they are written and approved.</div></div></div>
+</section>
+
+<section class="page" data-page="/careers">
+  <div class="band"><div class="bandimg"><img data-img="trackrecord" alt=""></div><div class="wrap phero">
+    <p class="eyebrow">Careers at ALDA</p><h1>Build Your Career. Build Something That Lasts.</h1>
+    <p class="lede">We are looking for people willing to learn, take responsibility and contribute to
+      meaningful projects.</p></div></div>
+  <div class="sec"><div class="wrap"><div class="g2">
+    <div class="card"><h3>Learn through real projects</h3><p>Working on real projects provides opportunities to
+      understand planning, execution, coordination and customer requirements.</p></div>
+    <div class="card"><h3>Grow with the brand</h3><p>ALDA is building a modern brand on a long-standing
+      foundation. Employees joining at this stage can contribute to that growth.</p></div>
+  </div>
+  <h3 style="margin:44px 0 14px;font-size:22px">Potential roles</h3>
+  <div class="locs"><span>Project Management</span><span>Site Engineering</span><span>Civil Engineering</span>
+    <span>Quantity Surveying</span><span>Procurement</span><span>Sales</span><span>Marketing</span>
+    <span>Customer Relations</span><span>Administration</span><span>Finance</span></div>
+  <div class="notice" style="margin-top:26px"><b>No current vacancies listed</b>Roles above indicate the areas
+    ALDA hires into. Actual vacancies will be published only once confirmed.</div>
+  <div style="margin-top:26px"><a class="btn btn-p" href="#/contact">Apply / Get in touch</a></div>
+  </div></div>
+</section>
+
+<section class="page" data-page="/contact">
+  <div class="band"><div class="bandimg"><img data-img="arrival" alt=""></div><div class="wrap phero">
+    <p class="eyebrow">Contact Us</p><h1>Let's Talk About Your Next Project</h1>
+    <p class="lede">Whether you are looking for a new home, exploring a development, planning a construction
+      project or looking to work with ALDA, our team is ready to hear from you.</p></div></div>
+  <div class="sec"><div class="wrap g2">
+    <div><h2 style="font-size:clamp(22px,3vw,30px);margin-bottom:14px">Enquiry</h2>
+      <form class="form" id="enqForm">
+        <div><label for="fn">Name</label><input id="fn" name="name" required></div>
+        <div><label for="fe">Email</label><input id="fe" name="email" type="email" required></div>
+        <div><label for="fp">Phone</label><input id="fp" name="phone" type="tel"></div>
+        <div><label for="fi">I'm interested in</label><select id="fi" name="interest">
+          <option>Real Estate</option><option>Contracting</option><option>ALDA Ayan</option>
+          <option>ALDA Aran</option><option>Upcoming Projects</option><option>NRI Enquiry</option>
+          <option>Careers</option><option>General Enquiry</option></select></div>
+        <div><label for="fm">Message</label><textarea id="fm" name="message"></textarea></div>
+        <div><button class="btn btn-p" type="submit">Send Enquiry</button></div>
+        <p id="formNote" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin:0"></p>
+      </form></div>
+    <div><h2 style="font-size:clamp(22px,3vw,30px);margin-bottom:14px">Contact Details</h2>
+      <p class="cinfo"><strong style="font-family:var(--sans)">ALDA</strong><br>
+        No. 72, 28th Cross Street,<br>Indira Nagar, Adyar,<br>Chennai, Tamil Nadu – 600020, India<br><br>
+        Phone: <a href="tel:+918939960009">+91 89399 60009</a><br>
+        Office: <a href="tel:+914445609989">+91 44 4560 9989</a><br>
+        Email: <a href="mailto:info@aldaglobal.com">info@aldaglobal.com</a></p>
+      <div class="notice" style="margin-top:22px"><b>Form delivery</b>The enquiry form opens a pre-filled email
+        to info@aldaglobal.com. Connecting it to a CRM is a build step for whoever hosts the site.</div>
+    </div></div></div>
+</section>
+
+<section class="page" data-page="/legal">
+  <div class="sec" style="padding-top:64px"><div class="wrap"><p class="eyebrow">Footer / Legal</p>
+    <h1 style="font-size:clamp(28px,4.4vw,44px);margin-bottom:16px">Legal &amp; Policies</h1>
+    <div class="notice" style="margin-bottom:30px"><b>Requires legal review</b>These are legal documents, not
+      marketing pages. The scope of each is outlined for ALDA's legal advisor to draft and approve. No policy
+      text has been invented — a generic e-commerce refund policy must not be used for real estate.</div>
+    <div class="g2">
+      <div class="card"><h3>Privacy Policy</h3><ul class="ticks"><li>Information collected &amp; form data</li>
+        <li>Phone / WhatsApp enquiries</li><li>Cookies, analytics, marketing tracking</li>
+        <li>Lead management &amp; data storage</li><li>Third-party services &amp; user rights</li></ul></div>
+      <div class="card"><h3>Terms &amp; Conditions</h3><ul class="ticks"><li>Website use &amp; accuracy</li>
+        <li>Intellectual property</li><li>Project information, images and renders</li>
+        <li>Pricing and availability</li><li>Limitation of liability</li></ul></div>
+      <div class="card"><h3>Cancellation &amp; Refund</h3><ul class="ticks"><li>Booking amount</li>
+        <li>Cancellation conditions</li><li>Refund eligibility &amp; deductions</li>
+        <li>Processing timelines</li><li>Applicable law</li></ul></div>
+      <div class="card"><h3>Disclaimer</h3><p style="color:var(--muted);font-size:15px">The information, images,
+        specifications, layouts, plans, amenities, prices and other details displayed on this website are
+        provided for general information and may be subject to change. Actual project details shall be as
+        stated in the applicable project documents and agreements.</p></div>
+    </div></div></div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div><h4 style="font-family:var(--disp);letter-spacing:.1em">ALDA</h4>
+      <p style="font-size:14px;line-height:1.75;margin:0">Chennai-based contractor and real estate development
+        brand. Construction expertise and a family legacy under one name.</p></div>
+    <div><h4>Explore</h4><a href="#/about">About Us</a><a href="#/what-we-do">What We Do</a>
+      <a href="#/projects">Projects</a><a href="#/locations">Locations</a></div>
+    <div><h4>More</h4><a href="#/nri">NRI</a><a href="#/insights">Insights</a>
+      <a href="#/careers">Careers</a><a href="#/contact">Contact</a></div>
+    <div><h4>Get in touch</h4><p style="font-family:var(--mono);font-size:13px;line-height:1.9;margin:0">
+      No. 72, 28th Cross Street,<br>Indira Nagar, Adyar,<br>Chennai – 600020<br>
+      <a href="tel:+918939960009" style="display:inline">+91 89399 60009</a><br>
+      <a href="mailto:info@aldaglobal.com" style="display:inline">info@aldaglobal.com</a></p></div>
+  </div>
+  <p class="disc">All imagery on this site is a 3D architectural visualisation created for illustrative purposes
+    and does not depict a completed ALDA project. Information, images, specifications, layouts, plans,
+    amenities, prices and other details are provided for general information and may be subject to change.
+    Actual details shall be as stated in the applicable project documents and agreements.</p>
+  <div class="fbot"><span>© <span id="yr"></span> ALDA. All rights reserved.</span>
+    <span><a href="#/legal" style="display:inline">Privacy · Terms · Refunds · Disclaimer</a></span></div>
+</div></footer>
+
+<script>
+const SEQ = __SEQ__, IMG = __IMG__;
+document.querySelectorAll("[data-img]").forEach(el => { el.src = IMG[el.dataset.img]; });
+
+/* ---------------- scroll story: beats tied to what fills the frame ---------------- */
+const BEATS = [
+  {at:0.00, eyebrow:"Chennai · Contracting & Real Estate Development",
+   h:"Building with Experience. Creating for Generations.",
+   p:"ALDA is a Chennai-based contractor and real estate development brand bringing construction expertise, professional experience and a long-standing family legacy together under one name.",
+   cta:[["Explore Our Projects","#/projects","btn-p"],["Talk to ALDA","#/contact","btn-g"]]},
+  {at:0.17, eyebrow:"Our Legacy",
+   h:"A legacy built across generations.",
+   p:"The family business journey traces back to 1913. Over decades that entrepreneurial spirit evolved through Sri Shreenivas Enterprises — a family brand for more than 35 years.",
+   figs:[["1913","Family roots"],["35+","Years as Sri Shreenivas"],["40+","Projects delivered"]]},
+  {at:0.33, eyebrow:"What We Do — Contracting",
+   h:"Construction expertise that understands the ground reality.",
+   p:"Residential and commercial construction, turnkey execution, renovation and restoration, and building-related works — across homes, apartment developments, commercial spaces, infrastructure and hospitals.",
+   cta:[["Contracting","#/what-we-do","btn-g"]]},
+  {at:0.51, eyebrow:"What We Do — Development",
+   h:"Homes designed around the people who will live in them.",
+   p:"Our development approach begins with what makes a home work — not only visually, but practically. Location, functional layouts, quality construction and long-term value.",
+   figs:[["3 BHK","ALDA Ayan"],["16","Residences"],["1,672–1,934","sq. ft."]]},
+  {at:0.69, eyebrow:"Track Record",
+   h:"Experience you can see, on sites across Chennai.",
+   p:"Our capabilities are supported by decades of family business experience, more than 35 years associated with Sri Shreenivas Enterprises, and Vijay Srinivas' professional real estate experience.",
+   figs:[["21+","Years — Vijay Srinivas"],["40+","Projects"],["11","Chennai locations"]]},
+  {at:0.85, eyebrow:"Our Projects",
+   h:"Ayan. Aran. Amogh. One.",
+   p:"A portfolio bringing together residential development and contracting experience — ongoing developments in Thiruvanmiyur, completed projects in Adyar, and a growing pipeline.",
+   cta:[["See all projects","#/projects","btn-p"]]},
+  {at:1.00, eyebrow:"Locations",
+   h:"Building where people want to live, work and grow.",
+   p:"From Thiruvanmiyur and Adyar to Anna Nagar, ECR, Perungudi, Ambattur and beyond — we evaluate projects on far more than an address.",
+   cta:[["Explore locations","#/locations","btn-p"],["Enquire now","#/contact","btn-g"]]}
+];
+
+const beatsEl = document.getElementById('beats');
+const railEl  = document.getElementById('rail');
+beatsEl.innerHTML = BEATS.map(b => `
+  <div class="beat"><div class="inner">
+    <p class="eyebrow">${b.eyebrow}</p>
+    <h2>${b.h}</h2>
+    <p>${b.p}</p>
+    ${b.figs ? `<div class="figs">${b.figs.map(f=>`<div><b>${f[0]}</b>${f[1]}</div>`).join('')}</div>` : ''}
+    ${b.cta ? `<div class="cta">${b.cta.map(c=>`<a class="btn ${c[2]}" href="${c[1]}">${c[0]}</a>`).join('')}</div>` : ''}
+  </div></div>`).join('');
+railEl.innerHTML = BEATS.map(()=>'<i></i>').join('');
+const beatEls = [...beatsEl.children], railEls = [...railEl.children];
+
+/* ---------------- canvas scrubber: decode once, then only drawImage ---------------- */
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d', {alpha:false});
+const loadEl = document.getElementById('load'), lbar = document.getElementById('lbar');
+let bitmaps = new Array(SEQ.length), ready = false, cur = -1;
+
+function size(){
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const r = cv.getBoundingClientRect();
+  const w = Math.round(r.width * dpr), h = Math.round(r.height * dpr);
+  if (cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; cur = -1; }
+}
+function paint(i){
+  const bm = bitmaps[i];
+  if (!bm) return;
+  const cw = cv.width, ch = cv.height;
+  const s = Math.max(cw / bm.width, ch / bm.height);
+  const w = bm.width * s, h = bm.height * s;
+  ctx.drawImage(bm, (cw - w) / 2, (ch - h) / 2, w, h);
+}
+async function decodeAll(){
+  let done = 0;
+  await Promise.all(SEQ.map(async (src, i) => {
+    const im = new Image();
+    im.src = src;
+    try { await im.decode(); } catch(e){ /* fall through */ }
+    try { bitmaps[i] = await createImageBitmap(im); }
+    catch(e){ bitmaps[i] = im; }                        // <img> is a valid drawImage source
+    done++;
+    lbar.style.width = Math.round(done / SEQ.length * 100) + '%';
+    if (i === 0){ size(); paint(0); }
+  }));
+  ready = true;
+  loadEl.classList.add('gone');
+  update();
+}
+
+const story = document.getElementById('story');
+const cue = document.getElementById('cue');
+let raf = 0, lastIdx = -1, lastBeat = -1;
+function update(){
+  raf = 0;
+  const r = story.getBoundingClientRect();
+  const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav')) || 68;
+  const span = r.height - (window.innerHeight - navH);
+  const t = span > 0 ? Math.max(0, Math.min(1, -r.top / span)) : 0;
+
+  const idx = Math.round(t * (SEQ.length - 1));
+  if (ready && idx !== lastIdx){ lastIdx = idx; paint(idx); }
+
+  let best = 0, bd = 9;
+  BEATS.forEach((b, i) => { const d = Math.abs(t - b.at); if (d < bd){ bd = d; best = i; } });
+  if (best !== lastBeat){
+    lastBeat = best;
+    beatEls.forEach((e, i) => e.classList.toggle('on', i === best));
+    railEls.forEach((e, i) => e.classList.toggle('on', i === best));
+  }
+  cue.style.opacity = t > 0.04 ? 0 : 0.85;
+}
+function onScroll(){ if (!raf) raf = requestAnimationFrame(update); }
+window.addEventListener('scroll', onScroll, {passive:true});
+window.addEventListener('resize', () => { size(); cur = -1; lastIdx = -1; onScroll(); }, {passive:true});
+size();
+decodeAll();
+
+/* ---------------- projects ---------------- */
+const PROJECTS = [
+  {img:"development", n:"ALDA Ayan", loc:"Thiruvanmiyur, Chennai", st:"Ongoing", cls:"live",
+   spec:"3 BHK · 16 residences<br>1,672–1,934 sq. ft. · 2 car parks",
+   d:"A residential development positioned as an exclusive 3 BHK address."},
+  {img:"projects", n:"ALDA Aran", loc:"Location to be confirmed", st:"Upcoming", cls:"live",
+   spec:"Configuration — to be confirmed<br>Units &amp; RERA — to be confirmed",
+   d:"A newly signed project in ALDA's growing development pipeline."},
+  {img:"arrival", n:"ALDA Amogh", loc:"Adyar, Chennai", st:"Completed", cls:"done",
+   spec:"Completed / sold out", d:"A completed residential development in Adyar."},
+  {img:"locations", n:"ALDA One", loc:"Indira Nagar, Adyar", st:"Completed", cls:"done",
+   spec:"Completed / sold out", d:"A completed residential project in Indira Nagar."}
+];
+const card = p => `<article class="pcard"><img src="${IMG[p.img]}" alt="${p.n} — 3D visualisation">
+  <div class="pb"><span class="tag ${p.cls}">${p.st}</span><h3>${p.n}</h3>
+  <p style="color:var(--muted);font-size:15px;margin:0">${p.loc}</p>
+  <p style="font-size:15px;margin:0">${p.d}</p><div class="spec">${p.spec}</div></div></article>`;
+document.getElementById('homeProjects').innerHTML = PROJECTS.slice(0,3).map(card).join('');
+document.getElementById('ongoing').innerHTML   = PROJECTS.filter(p=>p.st!=="Completed").map(card).join('');
+document.getElementById('completed').innerHTML = PROJECTS.filter(p=>p.st==="Completed").map(card).join('');
+
+/* ---------------- router ---------------- */
+const pages = [...document.querySelectorAll('.page')];
+const links = [...document.querySelectorAll('.navlinks a')];
+function route(){
+  const r = location.hash.replace(/^#/,'') || '/';
+  let hit = false;
+  pages.forEach(p => { const on = p.dataset.page === r; p.classList.toggle('on', on); if (on) hit = true; });
+  if (!hit) pages.find(p => p.dataset.page === '/').classList.add('on');
+  links.forEach(a => a.classList.toggle('on', a.dataset.r === r));
+  document.getElementById('nav').classList.remove('open');
+  window.scrollTo(0,0);
+  if (r === '/'){ size(); lastIdx = -1; onScroll(); }
+}
+window.addEventListener('hashchange', route);
+document.getElementById('burger').addEventListener('click', e => {
+  const open = document.getElementById('nav').classList.toggle('open');
+  e.currentTarget.setAttribute('aria-expanded', String(open));
+});
+document.getElementById('enqForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const f = e.target;
+  const body = ['Name: '+f.name.value,'Email: '+f.email.value,'Phone: '+f.phone.value,
+                'Interest: '+f.interest.value,'',f.message.value].join('\n');
+  document.getElementById('formNote').textContent = 'Opening your email app…';
+  location.href = 'mailto:info@aldaglobal.com?subject='
+    + encodeURIComponent('Website enquiry — '+f.interest.value) + '&body=' + encodeURIComponent(body);
+});
+document.getElementById('yr').textContent = new Date().getFullYear();
+route();
+</script>
